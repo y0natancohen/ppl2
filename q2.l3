@@ -1,0 +1,52 @@
+(define empty?
+   (lambda (lst)
+        (eq? lst '())
+  )
+)
+
+(define list?
+    (lambda (lst)
+       (if (empty? lst)
+           #t
+           (if (pair? lst)
+                (list? (cdr lst))
+                #f
+           )
+       )
+    )
+)
+
+(define equal-list?
+    (lambda (lst1 lst2)
+       (if (and (list? lst1) (list? lst2))
+            (if (and (empty? lst1) (empty? lst2))
+                #t
+                (if (or (and (empty? lst1) (not (empty? lst2)))
+                        (and (empty? lst2) (not (empty? lst1))))
+                    #f
+                    (and (eq? (car lst1) (car lst2))
+                        (equal-list? (cdr lst1) (cdr lst2)))
+                )
+            )
+           #f
+       )
+    )
+)
+
+(define append
+  (lambda (lst1 lst2)
+     @TODO
+  )
+)
+
+(define append3
+  (lambda (lst1 lst2 num)
+       @TODO
+    )
+)
+
+(define pascal
+  (lambda (n)
+     @TODO
+  )
+)
