@@ -1,5 +1,5 @@
 import { map } from "ramda";
-import { Parsed, isBoolExp, isProgram, isNumExp, isVarRef, isPrimOp, isLitExp, isProcExp, isIfExp, isAppExp, isDefineExp, isLetExp } from './L3-ast';
+import { Parsed, isStrExp, isBoolExp, isProgram, isNumExp, isVarRef, isPrimOp, isLitExp, isProcExp, isIfExp, isAppExp, isDefineExp, isLetExp } from './L3-ast';
 import {parsedToString} from './L3-value';
 import {isError} from './error';
 
@@ -9,6 +9,7 @@ export const unparseL3 = (exp: Parsed | Error): string | Error =>
     isProgram(exp) ? map(unparseL3,exp.exps).join("\n") :
     isBoolExp(exp) ? (exp.val ? '#t' : '#f') :
     isNumExp(exp) ? exp.val.toString() :
+    isStrExp(exp) ? exp.val :
     isVarRef(exp) ? exp.var :
     isPrimOp(exp) ? exp.op :
     isLitExp(exp) ? parsedToString(exp.val) :
@@ -30,4 +31,4 @@ export const unparseL3 = (exp: Parsed | Error): string | Error =>
                             map((binding) => "(" + binding.var.var + " " + unparseL3(binding.val) + ")", exp.bindings).join(" ") + ") " +
                             map(unparseL3, exp.body).join(" ") +                        
                     ")" :
-    Error("Unknown expression: " + exp.tag);
+    Error("Unknown expression: " + exp);
