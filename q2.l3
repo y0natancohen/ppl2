@@ -16,6 +16,8 @@
     )
 )
 
+@TODO: not working :(
+(equal-list? '(#t "a" (2 'b)) '(#t "a" (2 'b)))
 (define equal-list?
     (lambda (lst1 lst2)
        (if (and (list? lst1) (list? lst2))
