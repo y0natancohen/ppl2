@@ -3,7 +3,19 @@ import { parseL3 } from './imp/L3-ast';
 import { unparseL3 } from './imp/L3-unparse';
 import { l3ToL30 } from './q3';
 
-console.log(unparseL3(parseL3(`(L3 (define x 7) (+ x 5))`)));
+const util = require('util');
+
+// console.log(util.inspect(parseL3(`'()`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`'(1)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`'(1 2)`), {showHidden: false, depth: null}));
+//
+//
+// console.log(util.inspect(parseL3(`(list)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(unparseL3(parseL3(`(list)`)), {showHidden: false, depth: null}));
+//
+// console.log(util.inspect(parseL3(`(list 1)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`(list 1 2)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`(cons 1 (cons 2 '()))`),{showHidden: false, depth: null}));
 
 
 assert.deepEqual(unparseL3(l3ToL30(parseL3(`'()`))),`'()`);
