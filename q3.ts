@@ -15,7 +15,7 @@ import {
 import { makeAppExp, makeDefineExp, makeIfExp, makeProcExp, makeProgram, makePrimOp, makeLetExp, makeBinding, makeLitExp } from "./imp/L3-ast";
 import { isExp, isStrExp, isAppExp, isAtomicExp, isCExp, isDefineExp, isIfExp, isLetExp, isLitExp, isPrimOp, isProcExp, isProgram } from "./imp/L3-ast";
 import {isError} from './imp/error';
-import {makeEmptySExp, isEmptySExp, isCompoundSExp, parsedToString, makeCompoundSExp} from "./imp/L3-value";
+import {makeEmptySExp, isEmptySExp, isCompoundSExp, parsedToString, makeCompoundSExp, EmptySExp} from "./imp/L3-value";
 import {first, second, rest} from './imp/list';
 
 /*
@@ -47,7 +47,7 @@ const rewriteAppExp = (e: AppExp): AppExp | LitExp => {
     if (isPrimOp(e.rator)){
         if (e.rator.op === 'list'){
             if (e.rands.length === 0){
-                return makeLitExp('()')
+                return makeLitExp(makeEmptySExp());
             }else{
                 return makeAppExp(
                     makePrimOp('cons'),

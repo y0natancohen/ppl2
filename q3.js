@@ -32,7 +32,7 @@ var rewriteAppExp = function (e) {
     if (L3_ast_3.isPrimOp(e.rator)) {
         if (e.rator.op === 'list') {
             if (e.rands.length === 0) {
-                return L3_ast_2.makeLitExp('()');
+                return L3_ast_2.makeLitExp(L3_value_1.makeEmptySExp());
             }
             else {
                 return L3_ast_2.makeAppExp(L3_ast_2.makePrimOp('cons'), [e.rands[0],
