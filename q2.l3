@@ -59,6 +59,19 @@
 
 (define pascal
   (lambda (n)
-     @TODO
+    (if (= n 1)
+        (cons 1 '())
+        (makePascalRow (pascal (- n 1)) '()) 
+        )
+    )
   )
-)
+  
+(define makePascalRow
+  (lambda (previousRow currRow)
+    (if (empty? (cdr previousRow))
+        (append3 (cons 1 '()) currRow 1)
+        (makePascalRow (cdr previousRow) (append currRow (cons (+ (car previousRow) (car (cdr previousRow))) '())))
+        )
+    )
+  )
+
