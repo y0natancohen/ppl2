@@ -5,14 +5,17 @@ var L3_ast_1 = require("./imp/L3-ast");
 var L3_unparse_1 = require("./imp/L3-unparse");
 var q3_1 = require("./q3");
 var util = require('util');
-
+// console.log(util.inspect(parseL3(`'()`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`'(1)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`'(1 2)`), {showHidden: false, depth: null}));
+//
+//
+// console.log(util.inspect(parseL3(`(list)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(unparseL3(parseL3(`(list)`)), {showHidden: false, depth: null}));
+//
+// console.log(util.inspect(parseL3(`(list 1)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(parseL3(`(list 1 2)`), {showHidden: false, depth: null}));
 // console.log(util.inspect(parseL3(`(cons 1 (cons 2 '()))`),{showHidden: false, depth: null}));
-console.log(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("'()"))));
-console.log(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1)"))));
-console.log(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1 2)"))));
-console.log(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list (list 1 2) (list 3 4))"))));
-console.log("(cons (cons 1 (cons 2 '())) (cons (cons 3 (cons 4 '())) '()))");
-
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("'()"))), "'()");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1)"))), "(cons 1 '())");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1 2)"))), "(cons 1 (cons 2 '()))");

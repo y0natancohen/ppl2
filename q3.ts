@@ -10,7 +10,7 @@ import {
     isNumExp,
     isVarRef,
     parseL3CExp,
-    parseL3Sexp, parseL3
+    parseL3Sexp, parseL3, makeNumExp
 } from "./imp/L3-ast";
 import { makeAppExp, makeDefineExp, makeIfExp, makeProcExp, makeProgram, makePrimOp, makeLetExp, makeBinding, makeLitExp } from "./imp/L3-ast";
 import { isExp, isStrExp, isAppExp, isAtomicExp, isCExp, isDefineExp, isIfExp, isLetExp, isLitExp, isPrimOp, isProcExp, isProgram } from "./imp/L3-ast";
@@ -24,23 +24,23 @@ Signature: @TODO
 Type: @TODO
 */
 export const l3ToL30 = (exp: Parsed | Error): Parsed | Error  =>
-    isExp(exp) ? rewriteAllListExp(exp) :
-        isProgram(exp) ? makeProgram(map(rewriteAllListExp, exp.exps)) :
+    isExp(exp) ? rewriteExp(exp) :
+        isProgram(exp) ? makeProgram(map(rewriteExp, exp.exps)) :
             exp;
 
-const rewriteAllListExp = (exp: Exp): Exp =>
-    isCExp(exp) ? rewriteAllListCExp(exp) :
-        isDefineExp(exp) ? makeDefineExp(exp.var, rewriteAllListCExp(exp.val)) :
+const rewriteExp = (exp: Exp): Exp =>
+    isCExp(exp) ? rewriteCExp(exp) :
+        isDefineExp(exp) ? makeDefineExp(exp.var, rewriteCExp(exp.val)) :
             exp;
 
-const rewriteAllListCExp = (exp: CExp): CExp =>
+const rewriteCExp = (exp: CExp): CExp =>
     isLitExp(exp) ? rewriteLitExp(exp) :
-        isIfExp(exp) ? makeIfExp(rewriteAllListCExp(exp.test),
-            rewriteAllListCExp(exp.then),
-            rewriteAllListCExp(exp.alt)) :
+        isIfExp(exp) ? makeIfExp(rewriteCExp(exp.test),
+            rewriteCExp(exp.then),
+            rewriteCExp(exp.alt)) :
             isAppExp(exp) ? rewriteAppExp(exp) :
-                isProcExp(exp) ? makeProcExp(exp.args, map(rewriteAllListCExp, exp.body)) :
-                    isLetExp(exp) ? rewriteAllListCExp(exp) :
+                isProcExp(exp) ? makeProcExp(exp.args, map(rewriteCExp, exp.body)) :
+                    isLetExp(exp) ? rewriteCExp(exp) :
                         exp;
 
 const rewriteAppExp = (e: AppExp): AppExp | LitExp => {
@@ -51,7 +51,7 @@ const rewriteAppExp = (e: AppExp): AppExp | LitExp => {
             }else{
                 return makeAppExp(
                     makePrimOp('cons'),
-                        [e.rands[0],
+                        [rewriteCExp(e.rands[0]),
                         rewriteAppExp(makeAppExp(e.rator, e.rands.slice(1)))]
                 )
             }
@@ -63,8 +63,15 @@ const rewriteLitExp = (e: LitExp): LitExp | AppExp => {
     if (isEmptySExp(e.val)){
         return e
     }else if (isCompoundSExp(e.val)){
-        const val1CExp = parseL3CExp(e.val.val1);
+        const val1 = e.val.val1;
+        if (typeof val1 === "number"){
+            const val1Exp = makeNumExp(val1);
+        }
+        const val1CExp = parseL3CExp(e.val.val1); // this produces error because 1 is not a valid sexp
+        const val2isCompoundSExp = isCompoundSExp(e.val.val2);
+        const val1isCExp = isCExp(val1CExp);
         if (isCExp(val1CExp) && isCompoundSExp(e.val.val2)){
+            const what_came_back = rewriteLitExp(makeLitExp(e.val.val2));
             return makeAppExp(
                     makePrimOp('cons'),
                     [val1CExp, rewriteLitExp(makeLitExp(e.val.val2))]
