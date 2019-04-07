@@ -5,7 +5,7 @@ var L3_ast_1 = require("./imp/L3-ast");
 var L3_unparse_1 = require("./imp/L3-unparse");
 var q3_1 = require("./q3");
 var util = require('util');
-// console.log(util.inspect(parseL3(`'()`), {showHidden: false, depth: null}));
+// console.log(util.inspect(L3_ast_1.parseL3("((lambda (x) (list x x)) 3)"), {showHidden: false, depth: null}));
 // console.log(util.inspect(parseL3(`'(1)`), {showHidden: false, depth: null}));
 // console.log(util.inspect(parseL3(`'(1 2)`), {showHidden: false, depth: null}));
 //
@@ -15,8 +15,18 @@ var util = require('util');
 //
 // console.log(util.inspect(parseL3(`(list 1)`), {showHidden: false, depth: null}));
 // console.log(util.inspect(parseL3(`(list 1 2)`), {showHidden: false, depth: null}));
-// console.log(util.inspect(parseL3(`(cons 1 (cons 2 '()))`),{showHidden: false, depth: null}));
+// console.log(util.inspect(L3_ast_1.parseL3("(let ((x '(1 2)) (y (list 3 4))) (list x y))"),{showHidden: false, depth: null}));
+console.log(util.inspect(L3_ast_1.parseL3("(list 'aaa)"),{showHidden: false, depth: null}));
+console.log(util.inspect(L3_ast_1.parseL3("(cons 'aaa '())"),{showHidden: false, depth: null}));
+
+
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 'aaa)"))), "(cons 'aaa '())");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("'()"))), "'()");
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("1"))), "1");
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(define x 3)"))), "(define x 3)");
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("+"))), "+");
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("#t"))), "#t");
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1 #t)"))), "(cons 1 (cons #t '()))");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1)"))), "(cons 1 '())");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 1 2)"))), "(cons 1 (cons 2 '()))");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list (list 1 2) (list 3 4))"))), "(cons (cons 1 (cons 2 '())) (cons (cons 3 (cons 4 '())) '()))");

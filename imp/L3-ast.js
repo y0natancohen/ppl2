@@ -107,6 +107,7 @@ exports.parseL3 = function (x) {
     return exports.parseL3Sexp(p(x));
 };
 exports.parseL3Sexp = function (sexp) {
+    // console.log(require('util').inspect(sexp, {showHidden: false, depth: null}))
     return exports.isEmpty(sexp) ? Error("Parse: Unexpected empty") :
         exports.isArray(sexp) ? parseL3Compound(sexp) :
             exports.isString(sexp) ? parseL3Atomic(sexp) :
