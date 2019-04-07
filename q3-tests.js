@@ -13,16 +13,21 @@ var util = require('util');
 // console.log(util.inspect(parseL3(`(list)`), {showHidden: false, depth: null}));
 // console.log(util.inspect(unparseL3(parseL3(`(list)`)), {showHidden: false, depth: null}));
 //
-// console.log(util.inspect(parseL3(`(list 1)`), {showHidden: false, depth: null}));
+// console.log(util.inspect(L3_ast_1.parseL3(`'('aaa)`), {showHidden: false, depth: null}));
 // console.log(util.inspect(parseL3(`(list 1 2)`), {showHidden: false, depth: null}));
 // console.log(util.inspect(L3_ast_1.parseL3("(let ((x '(1 2)) (y (list 3 4))) (list x y))"),{showHidden: false, depth: null}));
-console.log(util.inspect(L3_ast_1.parseL3("(list 'aaa)"),{showHidden: false, depth: null}));
-console.log(util.inspect(L3_ast_1.parseL3("(cons 'aaa '())"),{showHidden: false, depth: null}));
+// console.log(util.inspect(L3_ast_1.parseL3("(list 'aaa)"),{showHidden: false, depth: null}));
+// console.log(util.inspect(q3_1.l3ToL30(L3_ast_1.parseL3("(list 'aaa)")),{showHidden: false, depth: null}));
+// console.log(util.inspect(L3_ast_1.parseL3("(cons 'aaa '())"),{showHidden: false, depth: null}));
 
-
-assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 'aaa)"))), "(cons 'aaa '())");
+// assert.deepEqual(q3_1.l3ToL30(L3_ast_1.parseL3("(list 'aaa)")), L3_ast_1.parseL3("(cons 'aaa '())"))
+// assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list 'aaa)"))), "(cons 'aaa '())");
+// assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("'('aaa)"))), "(cons 'aaa '())");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("'()"))), "'()");
+assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(list (lambda (x) (list x 1)) ((lambda (x) (list x 1)) 1))"))),
+                    "(cons (lambda (x) (cons x (cons 1 '()))) (cons ((lambda (x) (cons x (cons 1 '()))) 1) '()))");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("1"))), "1");
+// assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(L3 (define x) (+ x 3))"))), "(L3 (define x) (+ x 3))");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("(define x 3)"))), "(define x 3)");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("+"))), "+");
 assert.deepEqual(L3_unparse_1.unparseL3(q3_1.l3ToL30(L3_ast_1.parseL3("#t"))), "#t");
