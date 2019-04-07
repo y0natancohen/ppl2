@@ -16,9 +16,6 @@
     )
 )
 
-@TODO: not working :(
-(equal-list? '(#t "a" (2 'b)) '(#t "a" (2 'b)))
-
 (define equal-list?
     (lambda (lst1 lst2)
        (if (and (list? lst1) (list? lst2))
@@ -27,10 +24,17 @@
                 (if (or (and (empty? lst1) (not (empty? lst2)))
                         (and (empty? lst2) (not (empty? lst1))))
                     #f
-                    (if (eq? (car lst1) (car lst2))
-                        (equal-list? (cdr lst1) (cdr lst2))
-                        #f
-                     )
+                    (if (and (list? (car lst1)) (list? (car lst2)))
+                        (if (equal-list? (car lst1) (car lst2))
+                            (equal-list? (cdr lst1) (cdr lst2))
+                            #f
+                        )
+                        (if (eq? (car lst1) (car lst2))
+                            (equal-list? (cdr lst1) (cdr lst2))
+                            #f
+                        )
+
+                    )
                 )
             )
            #f

@@ -25,7 +25,7 @@ L30 is defined as L3 excluding the ​list ​ primitive operation and the liter
 
 Signature: l3ToL30(exp)
 
-Type: [Parsed -> Parsed]
+Type: [Parsed | Error -> Parsed | Error]
 */
 export const l3ToL30 = (exp: Parsed | Error): Parsed | Error  =>
     isExp(exp) ? rewriteExp(exp) :
